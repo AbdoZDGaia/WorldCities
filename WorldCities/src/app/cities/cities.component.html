@@ -22,5 +22,6 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<mat-paginator [hidden]="!cities" [pageSize]="10" [pageSizeOptions]="[10,20,50]" showFirstLastButtons="">
+<mat-paginator [hidden]="!cities" (page)="getData($event)" [pageSize]="10" [pageSizeOptions]="[10,20,50]"
+  showFirstLastButtons="">
 </mat-paginator>
