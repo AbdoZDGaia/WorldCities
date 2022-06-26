@@ -25,7 +25,9 @@ namespace WorldCitiesAPI.Controllers
         public async Task<ActionResult<ApiResult<City>>> GetCities(int pageIndex = 0,
             int pageSize = 10,
             string? sortColumn = null,
-            string? sortOrder = null)
+            string? sortOrder = null,
+            string? filterColumn = null,
+            string? filterQuery = null)
         {
             if (_context.Cities == null)
             {
@@ -35,7 +37,9 @@ namespace WorldCitiesAPI.Controllers
                 pageIndex,
                 pageSize,
                 sortColumn,
-                sortOrder);
+                sortOrder,
+                filterColumn,
+                filterQuery);
         }
 
         [HttpGet("{id}")]
