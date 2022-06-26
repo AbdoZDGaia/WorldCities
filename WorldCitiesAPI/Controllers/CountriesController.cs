@@ -22,22 +22,30 @@ namespace WorldCitiesAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
+        public async Task<ActionResult<ApiResult<Country>>> GetCountries(int pageIndex = 0,
+            int pageSize = 10,
+            string? sortColumn = null,
+            string? sortOrder = null,
+            string? filterColumn = null,
+            string? filterQuery = null)
         {
-          if (_context.Countries == null)
-          {
-              return NotFound();
-          }
-            return await _context.Countries.ToListAsync();
+            return await ApiResult<Country>.CreateAsync(
+            _context.Countries.AsNoTracking(),
+            pageIndex,
+            pageSize,
+            sortColumn,
+            sortOrder,
+            filterColumn,
+            filterQuery);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Country>> GetCountry(int id)
         {
-          if (_context.Countries == null)
-          {
-              return NotFound();
-          }
+            if (_context.Countries == null)
+            {
+                return NotFound();
+            }
             var country = await _context.Countries.FindAsync(id);
 
             if (country == null)
@@ -80,10 +88,10 @@ namespace WorldCitiesAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Country>> PostCountry(Country country)
         {
-          if (_context.Countries == null)
-          {
-              return Problem("Entity set 'ApplicationDbContext.Countries'  is null.");
-          }
+            if (_context.Countries == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Countries'  is null.");
+            }
             _context.Countries.Add(country);
             await _context.SaveChangesAsync();
 

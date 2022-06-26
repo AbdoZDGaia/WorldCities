@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CitiesComponent } from './cities/cities.component';
+import { CountriesComponent } from './countries/countries.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CitiesComponent } from './cities/cities.component';
     NavMenuComponent,
     HomeComponent,
     CitiesComponent,
+    CountriesComponent,
   ],
   imports: [
     BrowserModule,
