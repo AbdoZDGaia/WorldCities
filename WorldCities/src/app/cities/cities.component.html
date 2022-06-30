@@ -15,7 +15,11 @@
   </ng-container>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-    <td mat-cell *matCellDef="let city">{{ city.name }}</td>
+    <td mat-cell *matCellDef="let city">
+      <a [routerLink]="['/city',city.id]">
+        {{ city.name }}
+      </a>
+    </td>
   </ng-container>
   <ng-container matColumnDef="lat">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Lat</th>
