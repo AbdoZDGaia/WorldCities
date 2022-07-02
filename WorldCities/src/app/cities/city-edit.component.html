@@ -1,6 +1,7 @@
 <div class="city-edit">
     <h1>{{title}}</h1>
-    <p *ngIf="!city"><em>Loading...</em></p>
+    <!-- Make sure loading appears only in edit mode when fetching a city-->
+    <p *ngIf="this.id && !city"><em>Loading...</em></p>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
         <!-- Name -->
@@ -21,9 +22,19 @@
             <input matInput formControlName="lon" required placeholder="Insert longitude" />
         </mat-form-field>
 
+        <!-- Country -->
+        <p *ngIf="countries">
+            <select formControlName="countryId" id="countryId">
+                <option value="">--- Select a country ---</option>
+                <option *ngFor="let country of countries" [value]="country.id">
+                    {{country.name}}
+                </option>
+            </select>
+        </p>
+
         <div>
             <button mat-flat-button color="primary" type="submit">
-                Save
+                {{this.id ? "Save":"Create"}}
             </button>
             <button mat-flat-button color="secondary" [routerLink]="['/cities']">
                 Cancel
