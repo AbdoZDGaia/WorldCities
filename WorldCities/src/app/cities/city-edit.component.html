@@ -4,6 +4,13 @@
     <p *ngIf="this.id && !city"><em>Loading...</em></p>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
+        <p>
+            <mat-error *ngIf="form.invalid&&form.hasError('isDupeCity')">
+                <strong>ERROR</strong>:
+                A city with the same <i>name</i>, <i>lat</i>, <i>lon</i> and <i>country</i> already exists.
+            </mat-error>
+        </p>
+
         <!-- Name -->
         <mat-form-field>
             <mat-label>Name:</mat-label>
