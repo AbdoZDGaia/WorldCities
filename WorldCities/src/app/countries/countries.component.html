@@ -33,6 +33,11 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ISO 3</th>
         <td mat-cell *matCellDef="let country"> {{country.iso3}} </td>
     </ng-container>
+    <!-- TotCities Column -->
+    <ng-container matColumnDef="totCities">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tot. Cities</th>
+        <td mat-cell *matCellDef="let country"> {{country.totCities}} </td>
+    </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
