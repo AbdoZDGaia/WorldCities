@@ -1,6 +1,5 @@
+import { CountryService } from './country.service';
 import { map, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormBuilder,
@@ -37,7 +36,7 @@ export class CountryEditComponent extends BaseFormComponent implements OnInit {
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private countryService: CountryService
   ) {
     super();
   }
@@ -67,8 +66,7 @@ export class CountryEditComponent extends BaseFormComponent implements OnInit {
       //EDIT Mode
 
       //fetch country from the server
-      var url = environment.baseUrl + 'api/countries/' + this.id;
-      this.http.get<Country>(url).subscribe({
+      this.countryService.get(this.id).subscribe({
         next: (result) => {
           this.country = result;
           this.title = 'Edit - ' + this.country.name;
@@ -95,8 +93,7 @@ export class CountryEditComponent extends BaseFormComponent implements OnInit {
       if (this.id) {
         //EDIT Mode
 
-        var url = environment.baseUrl + 'api/countries/' + country.id;
-        this.http.put<Country>(url, country).subscribe({
+        this.countryService.put(country).subscribe({
           next: (result) => {
             console.log('Country ' + country!.id + 'has been updated.');
 
@@ -108,8 +105,7 @@ export class CountryEditComponent extends BaseFormComponent implements OnInit {
       } else {
         //ADD Mode
 
-        var url = environment.baseUrl + 'api/countries';
-        this.http.post<Country>(url, country).subscribe({
+        this.countryService.post(country).subscribe({
           next: (result) => {
             console.log('Country ' + result.id + ' has been created.');
 
@@ -126,16 +122,13 @@ export class CountryEditComponent extends BaseFormComponent implements OnInit {
     return (
       control: AbstractControl
     ): Observable<{ [key: string]: any } | null> => {
-      var params = new HttpParams()
-        .set('countryId', this.id ? this.id.toString() : '0')
-        .set('fieldName', fieldName)
-        .set('fieldValue', control.value);
-      var url = environment.baseUrl + 'api/countries/IsDupeField';
-      return this.http.post<boolean>(url, null, { params }).pipe(
-        map((result) => {
-          return result ? { isDupeField: true } : null;
-        })
-      );
+      return this.countryService
+        .isDupeField(this.id ?? 0, fieldName, control.value)
+        .pipe(
+          map((result) => {
+            return result ? { isDupeField: true } : null;
+          })
+        );
     };
   }
 }
