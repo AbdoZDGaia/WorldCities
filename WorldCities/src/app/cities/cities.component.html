@@ -4,7 +4,7 @@
 <p *ngIf="!cities"><em>Loading..</em></p>
 <button mat-button color="primary" class="btn-add" [routerLink]="['/city']">Add a new City</button>
 <mat-form-field [hidden]="!cities">
-  <input matInput #filter (keyup)="loadData(filter.value)" placeholder="Filter by name (or part of it)...">
+  <input matInput #filter (keyup)="onFilterTextChanged(filter.value)" placeholder="Filter by name (or part of it)...">
 </mat-form-field>
 
 <table mat-table [dataSource]="cities" class="mat-elevation-z8" [hidden]="!cities" matSort (matSortChange)="loadData()"
