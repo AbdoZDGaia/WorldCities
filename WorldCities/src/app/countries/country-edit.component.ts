@@ -11,18 +11,16 @@ import {
 } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Country } from './country';
+import { BaseFormComponent } from '../base-form.component';
 
 @Component({
   selector: 'app-country-edit',
   templateUrl: './country-edit.component.html',
   styleUrls: ['./country-edit.component.scss'],
 })
-export class CountryEditComponent implements OnInit {
+export class CountryEditComponent extends BaseFormComponent implements OnInit {
   //view title
   title?: string;
-
-  //form model
-  form!: FormGroup;
 
   //country object to create or edit
   country?: Country;
@@ -40,7 +38,9 @@ export class CountryEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
