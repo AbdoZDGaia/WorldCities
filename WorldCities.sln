@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "WorldCities", "WorldCities\WorldCities.esproj", "{0C30C92A-B593-4664-8FE0-1FC493DDBB57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldCitiesAPI", "WorldCitiesAPI\WorldCitiesAPI.csproj", "{4C1A29C3-D87F-49E3-95E8-28EC5E5BA5EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldCitiesAPI", "WorldCitiesAPI\WorldCitiesAPI.csproj", "{4C1A29C3-D87F-49E3-95E8-28EC5E5BA5EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldCitiesAPI.Tests", "WorldCitiesAPI.Tests\WorldCitiesAPI.Tests.csproj", "{43F876E9-5A35-4739-A77B-70551F70ACF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{4C1A29C3-D87F-49E3-95E8-28EC5E5BA5EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C1A29C3-D87F-49E3-95E8-28EC5E5BA5EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C1A29C3-D87F-49E3-95E8-28EC5E5BA5EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43F876E9-5A35-4739-A77B-70551F70ACF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43F876E9-5A35-4739-A77B-70551F70ACF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43F876E9-5A35-4739-A77B-70551F70ACF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43F876E9-5A35-4739-A77B-70551F70ACF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
