@@ -1,5 +1,5 @@
 import { CityService } from './city.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
@@ -10,7 +10,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { City } from './city';
 import { Country } from '../countries/country';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { BaseFormComponent } from '../base-form.component';
 
 @Component({
@@ -18,7 +18,10 @@ import { BaseFormComponent } from '../base-form.component';
   templateUrl: './city-edit.component.html',
   styleUrls: ['./city-edit.component.scss'],
 })
-export class CityEditComponent extends BaseFormComponent implements OnInit {
+export class CityEditComponent
+  extends BaseFormComponent
+  implements OnInit, OnDestroy
+{
   //view title
   title?: string;
   //city to edit
@@ -29,9 +32,13 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
   //not NULL when we're editing an existing one.
   id?: number;
 
-  //countries array for the select
-  countries?: Country[];
+  //Activity Log(for debugging purposes)
+  activityLog: string = '';
 
+  //The countries observable for the select (using async pipe)
+  countries?: Observable<Country[]>;
+
+  private subsriptions: Subscription[] = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -48,16 +55,49 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
           Validators.required,
           Validators.pattern(/^[-]?\d+(\.\d{1,4})?$/),
         ]),
-        lon: new FormControl('', Validators.required),
-        countryId: new FormControl('', [
+        lon: new FormControl('', [
           Validators.required,
           Validators.pattern(/^[-]?\d+(\.\d{1,4})?$/),
         ]),
+        countryId: new FormControl('', Validators.required),
       },
       null,
       this.isDupeCity()
     );
+
+    //react to form changes
+    this.subsriptions.push(
+      this.form.valueChanges.subscribe({
+        next: () => {
+          if (this.form.dirty) {
+            this.log('Form was updated by the user.');
+          } else {
+            this.log('Form Model has been loaded');
+          }
+        },
+        error: () => console.error('value changes related error'),
+      })
+    );
+
+    // react to changes in the form.name control
+    this.subsriptions.push(
+      this.form.get('name')!.valueChanges.subscribe({
+        next: () => {
+          if (this.form.dirty) {
+            this.log('Name was updated by the user.');
+          } else {
+            this.log('Name has been loaded with initial values.');
+          }
+        },
+        error: () => console.error('value changes related error'),
+      })
+    );
+
     this.loadData();
+  }
+
+  log(str: string) {
+    this.activityLog += `[${new Date().toLocaleString()}] ${str} <br/>`;
   }
 
   isDupeCity(): AsyncValidatorFn {
@@ -105,14 +145,9 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
   }
 
   loadCountries() {
-    this.cityService
+    this.countries = this.cityService
       .getCountries(0, 9999, 'name', 'asc', null, null)
-      .subscribe({
-        next: (result) => {
-          this.countries = result.data;
-        },
-        error: (err) => console.error(err),
-      });
+      .pipe(map((x) => x.data));
   }
 
   onSubmit() {
@@ -145,5 +180,9 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
         });
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.subsriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }
