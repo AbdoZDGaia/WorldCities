@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CountriesComponent } from './countries/countries.component';
 import { CountryEditComponent } from './countries/country-edit.component';
+import { LoginComponent } from './login.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'city/:id', component: CityEditComponent },
   { path: 'city', component: CityEditComponent },
   { path: 'countries', component: CountriesComponent },
+  { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorldCitiesAPI.Data;
@@ -82,6 +78,7 @@ namespace WorldCitiesAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles ="RegisteredUser")]
         public async Task<IActionResult> PutCity(int id, City city)
         {
             if (id != city.Id)
@@ -111,6 +108,7 @@ namespace WorldCitiesAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="RegisteredUser")]
         public async Task<ActionResult<City>> PostCity(City city)
         {
             if (_context.Cities == null)
@@ -124,6 +122,7 @@ namespace WorldCitiesAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles ="Administrator")]
         public async Task<IActionResult> DeleteCity(int id)
         {
             if (_context.Cities == null)
