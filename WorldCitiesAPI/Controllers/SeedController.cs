@@ -10,7 +10,7 @@ using WorldCitiesAPI.Data.Models;
 namespace WorldCitiesAPI.Controllers
 {
     [ApiController]
-    //[Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     public class SeedController : ControllerBase
     {
@@ -126,15 +126,15 @@ namespace WorldCitiesAPI.Controllers
         public async Task<IActionResult> CreateDefaultUsers()
         {
             // setup the default role names
-            string role_RegisteredUser = "RegisteredUser";
-            string role_Administrator = "Administrator";
+            string role_Registered = "Registered";
+            string role_Admin = "Admin";
             // create the default roles (if they don't exist yet)
-            if (await _roleManager.FindByNameAsync(role_RegisteredUser) == null)
+            if (await _roleManager.FindByNameAsync(role_Registered) == null)
                 await _roleManager.CreateAsync(
-                    new IdentityRole(role_RegisteredUser));
-            if (await _roleManager.FindByNameAsync(role_Administrator) == null)
+                    new IdentityRole(role_Registered));
+            if (await _roleManager.FindByNameAsync(role_Admin) == null)
                 await _roleManager.CreateAsync(
-                    new IdentityRole(role_Administrator));
+                    new IdentityRole(role_Admin));
             // create a list to track the newly added users
             var addedUserList = new List<ApplicationUser>();
             // check if the admin user already exists
@@ -150,12 +150,12 @@ namespace WorldCitiesAPI.Controllers
                 };
                 // insert the admin user into the DB
                 await _userManager.CreateAsync(user_Admin,
-                    _configuration["DefaultPasswords:Administrator"]);
-                // assign the "RegisteredUser" and "Administrator" roles
+                    _configuration["DefaultPasswords:Admin"]);
+                // assign the "Registered" and "Admin" roles
                 await _userManager.AddToRoleAsync(user_Admin,
-                role_RegisteredUser);
+                role_Registered);
                 await _userManager.AddToRoleAsync(user_Admin,
-                role_Administrator);
+                role_Admin);
                 // confirm the e-mail and remove lockout
                 user_Admin.EmailConfirmed = true;
                 user_Admin.LockoutEnabled = false;
@@ -175,10 +175,10 @@ namespace WorldCitiesAPI.Controllers
                 };
                 // insert the standard user into the DB
                 await _userManager.CreateAsync(user_User,
-                    _configuration["DefaultPasswords:RegisteredUser"]);
-                // assign the "RegisteredUser" role
+                    _configuration["DefaultPasswords:Registered"]);
+                // assign the "Registered" role
                 await _userManager.AddToRoleAsync(user_User,
-                role_RegisteredUser);
+                role_Registered);
                 // confirm the e-mail and remove lockout
                 user_User.EmailConfirmed = true;
                 user_User.LockoutEnabled = false;

@@ -90,7 +90,7 @@ namespace WorldCitiesAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "RegisteredUser")]
+        [Authorize(Roles = "Registered")]
         public async Task<IActionResult> PutCountry(int id, Country country)
         {
             if (id != country.Id)
@@ -120,7 +120,7 @@ namespace WorldCitiesAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "RegisteredUser,Administrator")]
+        [Authorize(Roles = "Registered,Admin")]
         public async Task<ActionResult<Country>> PostCountry(Country country)
         {
             if (_context.Countries == null)
@@ -134,7 +134,7 @@ namespace WorldCitiesAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCountry(int id)
         {
             if (_context.Countries == null)

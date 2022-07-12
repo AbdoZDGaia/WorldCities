@@ -30,10 +30,10 @@ namespace WorldCitiesAPI.Tests
             // create a IConfiguration mock instance
             var mockConfiguration = new Mock<IConfiguration>();
             mockConfiguration.SetupGet(x => x[It.Is<string>(
-                s => s == "DefaultPasswords:RegisteredUser")])
+                s => s == "DefaultPasswords:Registered")])
                 .Returns("M0ckP$$word");
             mockConfiguration.SetupGet(x => x[It.Is<string>(
-                s => s == "DefaultPasswords:Administrator")])
+                s => s == "DefaultPasswords:Admin")])
                 .Returns("M0ckP$$word");
 
             // create an ApplicationDbContext instance using in-memory DB

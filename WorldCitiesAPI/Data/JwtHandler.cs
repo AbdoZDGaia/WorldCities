@@ -12,8 +12,10 @@ namespace WorldCitiesAPI.Data
         private readonly IConfiguration _configuration;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public JwtHandler(IConfiguration configuration,
-            UserManager<ApplicationUser> userManager)
+        public JwtHandler(
+            IConfiguration configuration,
+            UserManager<ApplicationUser> userManager
+            )
         {
             _configuration = configuration;
             _userManager = userManager;
@@ -22,22 +24,22 @@ namespace WorldCitiesAPI.Data
         public async Task<JwtSecurityToken> GetTokenAsync(ApplicationUser user)
         {
             var jwtOptions = new JwtSecurityToken(
-            issuer: _configuration["JwtSettings:Issuer"],
-            audience: _configuration["JwtSettings:Audience"],
-            claims: await GetClaimsAsync(user),
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble(
-            _configuration["JwtSettings:ExpirationTimeInMinutes"])),
-            signingCredentials: GetSigningCredentials());
+                issuer: _configuration["JwtSettings:Issuer"],
+                audience: _configuration["JwtSettings:Audience"],
+                claims: await GetClaimsAsync(user),
+                expires: DateTime.Now.AddMinutes(Convert.ToDouble(
+                    _configuration["JwtSettings:ExpirationTimeInMinutes"])),
+                signingCredentials: GetSigningCredentials());
             return jwtOptions;
         }
 
         private SigningCredentials GetSigningCredentials()
         {
             var key = Encoding.UTF8.GetBytes(
-            _configuration["JwtSettings:SecurityKey"]);
+                _configuration["JwtSettings:SecurityKey"]);
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret,
-            SecurityAlgorithms.HmacSha256);
+                SecurityAlgorithms.HmacSha256);
         }
 
         private async Task<List<Claim>> GetClaimsAsync(ApplicationUser user)
@@ -47,7 +49,9 @@ namespace WorldCitiesAPI.Data
                 new Claim(ClaimTypes.Name, user.Email)
             };
 
-            foreach (var role in await _userManager.GetRolesAsync(user))
+            var roles = await _userManager.GetRolesAsync(user);
+
+            foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }

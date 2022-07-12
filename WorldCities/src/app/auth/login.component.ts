@@ -1,10 +1,10 @@
-import { LoginResult } from './auth/login-result';
-import { AuthService } from './auth/auth.service';
+import { LoginResult } from './login-result';
+import { AuthService } from './auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { BaseFormComponent } from './base-form.component';
+import { BaseFormComponent } from '../base-form.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginRequest } from './auth/login-request';
+import { LoginRequest } from './login-request';
 
 @Component({
   selector: 'app-login',
