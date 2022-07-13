@@ -6,14 +6,23 @@ import { HomeComponent } from './home/home.component';
 import { CountriesComponent } from './countries/countries.component';
 import { CountryEditComponent } from './countries/country-edit.component';
 import { LoginComponent } from './auth/login.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'country/:id', component: CountryEditComponent },
-  { path: 'country', component: CountryEditComponent },
+  {
+    path: 'country/:id',
+    component: CountryEditComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'country',
+    component: CountryEditComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'cities', component: CitiesComponent },
-  { path: 'city/:id', component: CityEditComponent },
-  { path: 'city', component: CityEditComponent },
+  { path: 'city/:id', component: CityEditComponent, canActivate: [AuthGuard] },
+  { path: 'city', component: CityEditComponent, canActivate: [AuthGuard] },
   { path: 'countries', component: CountriesComponent },
   { path: 'login', component: LoginComponent },
 ];
