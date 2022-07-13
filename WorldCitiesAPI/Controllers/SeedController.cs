@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -10,7 +9,6 @@ using WorldCitiesAPI.Data.Models;
 namespace WorldCitiesAPI.Controllers
 {
     [ApiController]
-    //[Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     public class SeedController : ControllerBase
     {
@@ -41,7 +39,7 @@ namespace WorldCitiesAPI.Controllers
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            var excelPath = Path.Combine(_env.ContentRootPath, "Data/Sources/Worldcities.xlsx");
+            var excelPath = System.IO.Path.Combine(_env.ContentRootPath, "Data/Sources/Worldcities.xlsx");
 
             using var stream = System.IO.File.OpenRead(excelPath);
             using var excelPackage = new ExcelPackage(stream);
